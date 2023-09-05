@@ -14,7 +14,7 @@ bowtie2.default <- function(bowtie2_command, reference_index, threads, currentSa
   
   ## Building up the run command
   optionsCommand <- c(paste0('-x ',reference_index),
-                      '-I 0', '-X 1000', paste0('-p ',threads),
+                      '-I 0', '-X 1250', paste0('-p ',threads),
                       paste0('-1 ',currentSample$fastq1path),
                       paste0('-2 ',currentSample$fastq2path),
                       paste0('-S ',currentSample$samPath))

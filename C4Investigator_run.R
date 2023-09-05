@@ -1,10 +1,13 @@
 # ---- DEPENDENCIES ----
+library(funr)
 library(data.table)
 library(methods)
 library(stringr)
 library(plotly)
 library(argparser)
+# installing pandoc https://pandoc.org/installing.html
 
+# ---- SETUP ----
 p <- arg_parser("Run C4Investigator")
 # Add command line arguments
 p <- add_argument(p, "--fqDirectory", help="The path to the directory holding your fastq data")
@@ -36,10 +39,11 @@ if( tolower(run.mode) == 'wgs' ){
 }
 
 # Preparation -------------------------------------------------------------
-source('resources/general_functions.R')
-source('resources/c4Copy_functions.R')
-source('resources/generalAlignment_functions.R')
-source('resources/c4_analysisSupport_functions.R')
+DIR<-get_script_path()
+source(file.path(DIR,'resources/general_functions.R'))
+source(file.path(DIR,'resources/c4Copy_functions.R'))
+source(file.path(DIR,'resources/generalAlignment_functions.R'))
+source(file.path(DIR,'resources/c4_analysisSupport_functions.R'))
 setDTthreads(threads)
 outDir <- pathObj(name='output_directory',path=resultsDirectory)
 outDir$dirGen()

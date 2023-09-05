@@ -9,8 +9,8 @@ bowtie2.c4_alignment <- function(bowtie2_command, reference_index, threads, curr
   
   ## Building up the run command
   optionsCommand <- c(paste0('-x ',reference_index),
-                      '-5 0', '-3 6', '-N 0', '--end-to-end', paste0('-p ',threads), '--score-min "L,0,-0.10"',
-                      '-I 75', '-X 1000',
+                      '-5 0', '-3 6', paste0('-p ',threads), '--score-min "L,0,-0.10"',
+                      '-I 50', '-X 1250',
                       paste0('-1 ',current_sample$fastq1path),
                       paste0('-2 ',current_sample$fastq2path),
                       '--no-unal','-a','--mp 2,2', '--rdg 1,1', '--rfg 1,1',
@@ -46,8 +46,8 @@ bowtie2.mhc.c4_alignment <- function(bowtie2_command, reference_index, threads, 
   
   ## Building up the run command
   optionsCommand <- c(paste0('-x ',reference_index),
-                      '-5 0', '-3 6', '-N 0', '--end-to-end', paste0('-p ',threads), '--score-min "L,0,-0.10"',
-                      '-I 75', '-X 1000',
+                      '-5 0', '-3 6', paste0('-p ',threads), '--score-min "L,0,-0.10"',
+                      '-I 50', '-X 1250',
                       paste0('-1 ',current_sample$fastq1path),
                       paste0('-2 ',current_sample$fastq2path),
                       '--no-unal','-a','--mp 2,2', '--rdg 1,1', '--rfg 1,1',
@@ -1168,8 +1168,8 @@ c4.samDT_to_depthDF <- function(samDT, output.dir, currentSample.id, c4AlleleDF)
   return(currentDepthDF)
 }
 
-resourcesDirectory <- normalizePath('resources/', mustWork=T)
-mhcResourcesDirectory <- normalizePath('resources/', mustWork=T)
+resourcesDirectory <- normalizePath(file.path(DIR,'resources'), mustWork=T)
+mhcResourcesDirectory <- normalizePath(file.path(DIR,'resources'), mustWork=T)
 
 ## Setting up C4 reference resources
 referencePath <- file.path(resourcesDirectory,'all_onelines_oneDel_bShort') ## C4 alignment reference
@@ -1294,7 +1294,8 @@ c4.generate_feature_list <- function( ref.fa ){
   
   return( geneFeature.list )
 }
-c4.feature.list <- c4.generate_feature_list('resources/c4only_onelines_oneDel_bShort.fasta')
+
+c4.feature.list <- c4.generate_feature_list( alignedC4Path )
 c4.feature.vect <- 1:length(unlist(c4.feature.list))
 names(c4.feature.vect) <- unlist(c4.feature.list)
 ins.feature.vect <- c4.feature.vect[2860:9230]

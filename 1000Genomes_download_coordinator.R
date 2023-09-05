@@ -2,7 +2,7 @@
 This script downloads 30X WGS data from the 1000Genomes project and converts it into FQ data for input into C4Investigator
 C4Investigator must be run as a seperate step after downloading and converting the data.
 '
-
+library(funr)
 library(argparser)
 library(parallel)
 
@@ -25,15 +25,15 @@ threads <- argv$threads                # <-- Set this to the maximum number of t
 ' if any dependencies are missing, install with
 install.packages("plotly",dependencies = T)
 '
-
-source('resources/general_functions.R')
-source('resources/tgp_functions.R')
+DIR<-get_script_path()
+source(file.path(DIR,'resources/general_functions.R'))
+source(file.path(DIR,'resources/tgp_functions.R'))
 
 
 # Preparation ------------------------------------------------------------------------------
 dir.create(data_outputDir, showWarnings = FALSE)
 threads <- min(c(detectCores(),threads))
-resourceDir <- 'resources/1000Genomes_resources/'
+resourceDir <- file.path(DIR,'resources/1000Genomes_resources/')
 awsUrl <- 'http://s3.amazonaws.com/1000genomes'
 
 

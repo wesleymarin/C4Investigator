@@ -144,7 +144,7 @@ c4.generate_feature_list <- function( ref.fa ){
   
   return( geneFeature.list )
 }
-c4.feature.list <- c4.generate_feature_list('resources/c4only_onelines_oneDel_bShort.fasta')
+c4.feature.list <- c4.generate_feature_list(file.path(DIR,'resources/c4only_onelines_oneDel_bShort.fasta'))
 c4.feature.vect <- 1:length(unlist(c4.feature.list))
 names(c4.feature.vect) <- unlist(c4.feature.list)
 ins.feature.vect <- c4.feature.vect[2860:9230]

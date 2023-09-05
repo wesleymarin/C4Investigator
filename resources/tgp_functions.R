@@ -36,23 +36,23 @@ retrieve_cram <- function(sampleID, output_dir, ref_path, bed_path, resourceDir)
 
 cram_to_fq <- function(sampleID, cram_path, output_path){
   
-  f1_path <- file.path(output_path,paste0(sampleID,'_C4_1.fq'))
-  f2_path <- file.path(output_path,paste0(sampleID,'_C4_2.fq'))
+  f1_path <- file.path(output_path,paste0(sampleID,'_C4_1.fq.gz'))
+  f2_path <- file.path(output_path,paste0(sampleID,'_C4_2.fq.gz'))
   
   if( file.exists(f1_path) & file.exists(f2_path) ){
     cat(paste('\n\t',f1_path,'already exists, skipping this conversion..'))
     return(list('f1'=f1_path,'f2'=f2_path))}
   
-  cram2fq <- system2('samtools',c('sort','-n','-M',
+  cram2fq <- system2('samtools',c('collate','-u','-O',
                                   cram_path,
-                                  paste('-O','bam'),
                                   '|',
                                   'samtools','fastq',
                                   paste('-1',f1_path),
                                   paste('-2',f2_path),
                                   paste('-0','/dev/null'),
                                   paste('-s','/dev/null'),
-                                  '-n', '-'))
+                                  '-n'))
   check.system2_output(cram2fq, paste(sampleID,'CRAM to FQ failed'))
-  
+  file.remove(cram_path)
+
   return(list('f1'=f1_path,'f2'=f2_path))}
